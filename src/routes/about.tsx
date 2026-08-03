@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Section } from "@/components/site/PageHero";
-import campus from "@/assets/campus.jpg";
+import campus from "@/assets/nursing-group.jpg.asset.json";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
