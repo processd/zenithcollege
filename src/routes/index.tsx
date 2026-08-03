@@ -184,8 +184,8 @@ function Index() {
             </Link>
           </div>
           <img
-            src={lab}
-            alt="Students working in the college medical laboratory"
+            src={studentsCorridor.url}
+            alt="Zenith College students in uniform on campus"
             width={1600}
             height={900}
             loading="lazy"
