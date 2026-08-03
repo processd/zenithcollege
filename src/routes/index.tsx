@@ -11,12 +11,13 @@ import {
   Users,
   ArrowRight,
 } from "lucide-react";
-import campus from "@/assets/campus.jpg";
-import lab from "@/assets/lab.jpg";
-import cls from "@/assets/class.jpg";
-import matriculation from "@/assets/matriculation.jpg";
-import training from "@/assets/training.jpg";
-import graduation from "@/assets/graduation.jpg";
+import nursingGroup from "@/assets/nursing-group.jpg.asset.json";
+import studentsNursing from "@/assets/students-nursing.png.asset.json";
+import chewStudents from "@/assets/chew-students.png.asset.json";
+import mltStudents from "@/assets/mlt-students.jpg.asset.json";
+import lectureSession from "@/assets/lecture-session.jpg.asset.json";
+import convocation from "@/assets/convocation.jpg.asset.json";
+import studentsCorridor from "@/assets/students-corridor.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
