@@ -44,12 +44,12 @@ export const Route = createFileRoute("/")({
 });
 
 const slides = [
-  { src: campus, caption: "College Building" },
-  { src: lab, caption: "Practical Laboratory" },
-  { src: cls, caption: "Students in Class" },
-  { src: matriculation, caption: "Matriculation Ceremony" },
-  { src: training, caption: "Industrial Training" },
-  { src: graduation, caption: "Graduation Ceremony" },
+  { src: nursingGroup.url, caption: "Nursing students of Zenith College, Jos" },
+  { src: studentsNursing.url, caption: "Students in clinical uniform on campus" },
+  { src: chewStudents.url, caption: "Community Health Extension Worker (CHEW) students" },
+  { src: mltStudents.url, caption: "Medical Laboratory Technician (MLT) students" },
+  { src: lectureSession.url, caption: "Lecture session in progress" },
+  { src: convocation.url, caption: "Convocation and graduation ceremony" },
 ];
 
 const quickLinks = [
