@@ -24,6 +24,14 @@ export function Footer() {
     <footer className="band-gradient text-primary-foreground">
       <div className="mx-auto grid max-w-7xl gap-10 px-4 py-14 md:grid-cols-2 lg:grid-cols-4">
         <div>
+          <img
+            src={logo.url}
+            alt="Zenith College of Health Science and Technology, Jos logo"
+            width={72}
+            height={72}
+            loading="lazy"
+            className="mb-4 h-18 w-18 rounded-xl bg-card p-1.5 object-contain"
+          />
           <h3 className="font-display text-lg font-bold">
             Zenith College of Health Science and Technology, Jos
           </h3>
