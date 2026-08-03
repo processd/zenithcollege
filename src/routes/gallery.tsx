@@ -1,11 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Section } from "@/components/site/PageHero";
-import campus from "@/assets/campus.jpg";
-import lab from "@/assets/lab.jpg";
-import cls from "@/assets/class.jpg";
-import matriculation from "@/assets/matriculation.jpg";
-import training from "@/assets/training.jpg";
-import graduation from "@/assets/graduation.jpg";
+import nursingGroup from "@/assets/nursing-group.jpg.asset.json";
+import studentsNursing from "@/assets/students-nursing.png.asset.json";
+import chewStudents from "@/assets/chew-students.png.asset.json";
+import mltStudents from "@/assets/mlt-students.jpg.asset.json";
+import studentPortrait from "@/assets/student-portrait.jpg.asset.json";
+import studentsCorridor from "@/assets/students-corridor.jpg.asset.json";
+import lectureSession from "@/assets/lecture-session.jpg.asset.json";
+import certificateAward from "@/assets/certificate-award.jpg.asset.json";
+import convocation from "@/assets/convocation.jpg.asset.json";
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
@@ -26,13 +29,15 @@ export const Route = createFileRoute("/gallery")({
 });
 
 const albums = [
-  { title: "Practical Sessions", src: training },
-  { title: "Laboratory", src: lab },
-  { title: "Students", src: cls },
-  { title: "Graduation", src: graduation },
-  { title: "Matriculation", src: matriculation },
-  { title: "Conferences", src: campus },
-  { title: "Community Outreach", src: training },
+  { title: "Nursing Students", src: nursingGroup.url },
+  { title: "Clinical Practicals", src: studentsNursing.url },
+  { title: "CHEW Department", src: chewStudents.url },
+  { title: "Medical Laboratory (MLT)", src: mltStudents.url },
+  { title: "Campus Life", src: studentsCorridor.url },
+  { title: "Our Students", src: studentPortrait.url },
+  { title: "Lectures & Seminars", src: lectureSession.url },
+  { title: "Awards & Recognition", src: certificateAward.url },
+  { title: "Convocation", src: convocation.url },
 ];
 
 function Gallery() {

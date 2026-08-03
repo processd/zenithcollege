@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { Menu, X, Phone, Mail } from "lucide-react";
+import logo from "@/assets/logo.png.asset.json";
 
 const nav = [
   { to: "/", label: "Home" },
@@ -33,9 +34,13 @@ export function Header() {
       <div className="border-b border-border bg-card/95 backdrop-blur">
         <div className="mx-auto grid max-w-7xl grid-cols-[minmax(0,1fr)_auto] items-center gap-4 px-4 py-3 lg:flex lg:justify-between">
           <Link to="/" className="flex min-w-0 items-center gap-3">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl band-gradient font-display text-lg font-black text-primary-foreground">
-              Z
-            </span>
+            <img
+              src={logo.url}
+              alt="Zenith College of Health Science and Technology, Jos logo"
+              width={44}
+              height={44}
+              className="h-11 w-11 shrink-0 rounded-lg bg-card object-contain"
+            />
             <span className="min-w-0">
               <span className="block truncate font-display text-sm font-bold leading-tight text-foreground sm:text-base">
                 Zenith College of Health Science &amp; Technology

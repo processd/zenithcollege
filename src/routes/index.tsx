@@ -11,12 +11,13 @@ import {
   Users,
   ArrowRight,
 } from "lucide-react";
-import campus from "@/assets/campus.jpg";
-import lab from "@/assets/lab.jpg";
-import cls from "@/assets/class.jpg";
-import matriculation from "@/assets/matriculation.jpg";
-import training from "@/assets/training.jpg";
-import graduation from "@/assets/graduation.jpg";
+import nursingGroup from "@/assets/nursing-group.jpg.asset.json";
+import studentsNursing from "@/assets/students-nursing.png.asset.json";
+import chewStudents from "@/assets/chew-students.png.asset.json";
+import mltStudents from "@/assets/mlt-students.jpg.asset.json";
+import lectureSession from "@/assets/lecture-session.jpg.asset.json";
+import convocation from "@/assets/convocation.jpg.asset.json";
+import studentsCorridor from "@/assets/students-corridor.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -43,12 +44,12 @@ export const Route = createFileRoute("/")({
 });
 
 const slides = [
-  { src: campus, caption: "College Building" },
-  { src: lab, caption: "Practical Laboratory" },
-  { src: cls, caption: "Students in Class" },
-  { src: matriculation, caption: "Matriculation Ceremony" },
-  { src: training, caption: "Industrial Training" },
-  { src: graduation, caption: "Graduation Ceremony" },
+  { src: nursingGroup.url, caption: "Nursing students of Zenith College, Jos" },
+  { src: studentsNursing.url, caption: "Students in clinical uniform on campus" },
+  { src: chewStudents.url, caption: "Community Health Extension Worker (CHEW) students" },
+  { src: mltStudents.url, caption: "Medical Laboratory Technician (MLT) students" },
+  { src: lectureSession.url, caption: "Lecture session in progress" },
+  { src: convocation.url, caption: "Convocation and graduation ceremony" },
 ];
 
 const quickLinks = [
@@ -183,8 +184,8 @@ function Index() {
             </Link>
           </div>
           <img
-            src={lab}
-            alt="Students working in the college medical laboratory"
+            src={studentsCorridor.url}
+            alt="Zenith College students in uniform on campus"
             width={1600}
             height={900}
             loading="lazy"
