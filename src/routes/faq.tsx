@@ -1,5 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Section } from "@/components/site/PageHero";
+import { faqs } from "@/data/faqs";
+
 
 export const Route = createFileRoute("/faq")({
   head: () => ({

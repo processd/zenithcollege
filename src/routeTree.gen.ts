@@ -12,10 +12,15 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdmissionsRouteImport } from './routes/admissions'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DepartmentsRouteImport } from './routes/departments'
+import { Route as DownloadsRouteImport } from './routes/downloads'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as ProgrammesRouteImport } from './routes/programmes'
+import { Route as StaffPortalRouteImport } from './routes/staff-portal'
+import { Route as StudentPortalRouteImport } from './routes/student-portal'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -32,9 +37,24 @@ const AdmissionsRoute = AdmissionsRouteImport.update({
   path: '/admissions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DepartmentsRoute = DepartmentsRouteImport.update({
   id: '/departments',
   path: '/departments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DownloadsRoute = DownloadsRouteImport.update({
+  id: '/downloads',
+  path: '/downloads',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GalleryRoute = GalleryRouteImport.update({
@@ -52,34 +72,59 @@ const ProgrammesRoute = ProgrammesRouteImport.update({
   path: '/programmes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const StaffPortalRoute = StaffPortalRouteImport.update({
+  id: '/staff-portal',
+  path: '/staff-portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const StudentPortalRoute = StudentPortalRouteImport.update({
+  id: '/student-portal',
+  path: '/student-portal',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admissions': typeof AdmissionsRoute
+  '/contact': typeof ContactRoute
   '/departments': typeof DepartmentsRoute
+  '/downloads': typeof DownloadsRoute
+  '/faq': typeof FaqRoute
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
   '/programmes': typeof ProgrammesRoute
+  '/staff-portal': typeof StaffPortalRoute
+  '/student-portal': typeof StudentPortalRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admissions': typeof AdmissionsRoute
+  '/contact': typeof ContactRoute
   '/departments': typeof DepartmentsRoute
+  '/downloads': typeof DownloadsRoute
+  '/faq': typeof FaqRoute
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
   '/programmes': typeof ProgrammesRoute
+  '/staff-portal': typeof StaffPortalRoute
+  '/student-portal': typeof StudentPortalRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admissions': typeof AdmissionsRoute
+  '/contact': typeof ContactRoute
   '/departments': typeof DepartmentsRoute
+  '/downloads': typeof DownloadsRoute
+  '/faq': typeof FaqRoute
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
   '/programmes': typeof ProgrammesRoute
+  '/staff-portal': typeof StaffPortalRoute
+  '/student-portal': typeof StudentPortalRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -87,38 +132,58 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admissions'
+    | '/contact'
     | '/departments'
+    | '/downloads'
+    | '/faq'
     | '/gallery'
     | '/news'
     | '/programmes'
+    | '/staff-portal'
+    | '/student-portal'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/admissions'
+    | '/contact'
     | '/departments'
+    | '/downloads'
+    | '/faq'
     | '/gallery'
     | '/news'
     | '/programmes'
+    | '/staff-portal'
+    | '/student-portal'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/admissions'
+    | '/contact'
     | '/departments'
+    | '/downloads'
+    | '/faq'
     | '/gallery'
     | '/news'
     | '/programmes'
+    | '/staff-portal'
+    | '/student-portal'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdmissionsRoute: typeof AdmissionsRoute
+  ContactRoute: typeof ContactRoute
   DepartmentsRoute: typeof DepartmentsRoute
+  DownloadsRoute: typeof DownloadsRoute
+  FaqRoute: typeof FaqRoute
   GalleryRoute: typeof GalleryRoute
   NewsRoute: typeof NewsRoute
   ProgrammesRoute: typeof ProgrammesRoute
+  StaffPortalRoute: typeof StaffPortalRoute
+  StudentPortalRoute: typeof StudentPortalRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -144,11 +209,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdmissionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/departments': {
       id: '/departments'
       path: '/departments'
       fullPath: '/departments'
       preLoaderRoute: typeof DepartmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/downloads': {
+      id: '/downloads'
+      path: '/downloads'
+      fullPath: '/downloads'
+      preLoaderRoute: typeof DownloadsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/gallery': {
@@ -172,6 +258,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgrammesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/staff-portal': {
+      id: '/staff-portal'
+      path: '/staff-portal'
+      fullPath: '/staff-portal'
+      preLoaderRoute: typeof StaffPortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/student-portal': {
+      id: '/student-portal'
+      path: '/student-portal'
+      fullPath: '/student-portal'
+      preLoaderRoute: typeof StudentPortalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -179,10 +279,15 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdmissionsRoute: AdmissionsRoute,
+  ContactRoute: ContactRoute,
   DepartmentsRoute: DepartmentsRoute,
+  DownloadsRoute: DownloadsRoute,
+  FaqRoute: FaqRoute,
   GalleryRoute: GalleryRoute,
   NewsRoute: NewsRoute,
   ProgrammesRoute: ProgrammesRoute,
+  StaffPortalRoute: StaffPortalRoute,
+  StudentPortalRoute: StudentPortalRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
