@@ -34,7 +34,7 @@ export const Route = createFileRoute("/")({
       },
       {
         property: "og:description",
-        content: "Training competent healthcare professionals — Training for Service.",
+        content: "Accredited health science college in Bukuru, Jos South. CHEW, Medical Laboratory Technician, Public Health and Pharmacy Technician programmes.",
       },
       { property: "og:url", content: "/" },
     ],

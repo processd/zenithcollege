@@ -84,11 +84,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Training competent healthcare professionals in Jos, Plateau State through quality education, practical skills and integrity.",
+          "Accredited health science college in Bukuru, Jos South. CHEW, Medical Laboratory Technician, Public Health and Pharmacy Technician programmes.",
       },
       { property: "og:site_name", content: "Zenith College of Health Science and Technology, Jos" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { property: "og:title", content: "Zenith College of Health Science and Technology, Jos" },
+      { name: "twitter:title", content: "Zenith College of Health Science and Technology, Jos" },
+      { property: "og:description", content: "Accredited health science college in Bukuru, Jos South. CHEW, Medical Laboratory Technician, Public Health and Pharmacy Technician programmes." },
+      { name: "twitter:description", content: "Accredited health science college in Bukuru, Jos South. CHEW, Medical Laboratory Technician, Public Health and Pharmacy Technician programmes." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/408f4f61-f812-4902-a455-24cf4107dcb7/id-preview-568db427--30e9fc60-3830-4f98-a03c-998658b63460.lovable.app-1785758415719.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/408f4f61-f812-4902-a455-24cf4107dcb7/id-preview-568db427--30e9fc60-3830-4f98-a03c-998658b63460.lovable.app-1785758415719.png" },
     ],
     links: [
       {
