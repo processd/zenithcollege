@@ -67,8 +67,8 @@ function About() {
             </p>
           </div>
           <img
-            src={campus}
-            alt="Zenith College campus building"
+            src={campus.url}
+            alt="Zenith College nursing students on campus"
             width={1600}
             height={900}
             loading="lazy"
