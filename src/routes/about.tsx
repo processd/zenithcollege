@@ -23,14 +23,15 @@ export const Route = createFileRoute("/about")({
   component: About,
 });
 
-const values = [
-  ["Accountability", "We take responsibility for our actions and outcomes."],
-  ["Commitment", "We are dedicated to every student's success."],
-  ["Competence", "We build real, verifiable professional skill."],
-  ["Excellence", "We pursue the highest academic and clinical standards."],
-  ["Integrity", "We uphold honesty and ethical practice."],
-  ["Respect", "We value the dignity of every person we serve."],
+const values: Array<{ name: string; text: string }> = [
+  { name: "Accountability", text: "We take responsibility for our actions and outcomes." },
+  { name: "Commitment", text: "We are dedicated to every student's success." },
+  { name: "Competence", text: "We build real, verifiable professional skill." },
+  { name: "Excellence", text: "We pursue the highest academic and clinical standards." },
+  { name: "Integrity", text: "We uphold honesty and ethical practice." },
+  { name: "Respect", text: "We value the dignity of every person we serve." },
 ];
+
 
 const facilities = [
   "Medical Laboratory",
@@ -97,15 +98,16 @@ function About() {
 
       <Section title="Core Values (ACCEIR)">
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {values.map(([name, text]) => (
-            <div key={name} className="rounded-xl border border-border bg-card p-6 shadow-card">
+          {values.map((v) => (
+            <div key={v.name} className="rounded-xl border border-border bg-card p-6 shadow-card">
               <span className="grid h-9 w-9 place-items-center rounded-lg band-gradient font-display font-bold text-primary-foreground">
-                {name[0]}
+                {v.name.charAt(0)}
               </span>
-              <h3 className="mt-4 font-display text-base font-bold">{name}</h3>
-              <p className="mt-1 text-sm text-muted-foreground">{text}</p>
+              <h3 className="mt-4 font-display text-base font-bold">{v.name}</h3>
+              <p className="mt-1 text-sm text-muted-foreground">{v.text}</p>
             </div>
           ))}
+
         </div>
       </Section>
 
