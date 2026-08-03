@@ -12,6 +12,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdmissionsRouteImport } from './routes/admissions'
+import { Route as DepartmentsRouteImport } from './routes/departments'
+import { Route as GalleryRouteImport } from './routes/gallery'
+import { Route as NewsRouteImport } from './routes/news'
 import { Route as ProgrammesRouteImport } from './routes/programmes'
 
 const IndexRoute = IndexRouteImport.update({
@@ -29,6 +32,21 @@ const AdmissionsRoute = AdmissionsRouteImport.update({
   path: '/admissions',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DepartmentsRoute = DepartmentsRouteImport.update({
+  id: '/departments',
+  path: '/departments',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GalleryRoute = GalleryRouteImport.update({
+  id: '/gallery',
+  path: '/gallery',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NewsRoute = NewsRouteImport.update({
+  id: '/news',
+  path: '/news',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ProgrammesRoute = ProgrammesRouteImport.update({
   id: '/programmes',
   path: '/programmes',
@@ -39,12 +57,18 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admissions': typeof AdmissionsRoute
+  '/departments': typeof DepartmentsRoute
+  '/gallery': typeof GalleryRoute
+  '/news': typeof NewsRoute
   '/programmes': typeof ProgrammesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admissions': typeof AdmissionsRoute
+  '/departments': typeof DepartmentsRoute
+  '/gallery': typeof GalleryRoute
+  '/news': typeof NewsRoute
   '/programmes': typeof ProgrammesRoute
 }
 export interface FileRoutesById {
@@ -52,20 +76,48 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admissions': typeof AdmissionsRoute
+  '/departments': typeof DepartmentsRoute
+  '/gallery': typeof GalleryRoute
+  '/news': typeof NewsRoute
   '/programmes': typeof ProgrammesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/admissions' | '/programmes'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/admissions'
+    | '/departments'
+    | '/gallery'
+    | '/news'
+    | '/programmes'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/admissions' | '/programmes'
-  id: '__root__' | '/' | '/about' | '/admissions' | '/programmes'
+  to:
+    | '/'
+    | '/about'
+    | '/admissions'
+    | '/departments'
+    | '/gallery'
+    | '/news'
+    | '/programmes'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/admissions'
+    | '/departments'
+    | '/gallery'
+    | '/news'
+    | '/programmes'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
   AdmissionsRoute: typeof AdmissionsRoute
+  DepartmentsRoute: typeof DepartmentsRoute
+  GalleryRoute: typeof GalleryRoute
+  NewsRoute: typeof NewsRoute
   ProgrammesRoute: typeof ProgrammesRoute
 }
 
@@ -92,6 +144,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdmissionsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/departments': {
+      id: '/departments'
+      path: '/departments'
+      fullPath: '/departments'
+      preLoaderRoute: typeof DepartmentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/gallery': {
+      id: '/gallery'
+      path: '/gallery'
+      fullPath: '/gallery'
+      preLoaderRoute: typeof GalleryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/news': {
+      id: '/news'
+      path: '/news'
+      fullPath: '/news'
+      preLoaderRoute: typeof NewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/programmes': {
       id: '/programmes'
       path: '/programmes'
@@ -106,6 +179,9 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
   AdmissionsRoute: AdmissionsRoute,
+  DepartmentsRoute: DepartmentsRoute,
+  GalleryRoute: GalleryRoute,
+  NewsRoute: NewsRoute,
   ProgrammesRoute: ProgrammesRoute,
 }
 export const routeTree = rootRouteImport
