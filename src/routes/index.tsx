@@ -10,6 +10,11 @@ import {
   ShieldCheck,
   Users,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Pause,
+
 } from "lucide-react";
 import nursingGroup from "@/assets/nursing-group.jpg.asset.json";
 import studentsNursing from "@/assets/students-nursing.png.asset.json";
@@ -29,6 +34,11 @@ export const Route = createFileRoute("/")({
           "Accredited health science college in Bukuru, Jos South. CHEW, Medical Laboratory Technician, Public Health and Pharmacy Technician programmes.",
       },
       {
+        name: "keywords",
+        content:
+          "Zenith College of Health Science Jos, health college Plateau State, CHEW school Nigeria, medical laboratory technician Jos, apply health college",
+      },
+      {
         property: "og:title",
         content: "Zenith College of Health Science and Technology, Jos",
       },
@@ -36,9 +46,20 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Accredited health science college in Bukuru, Jos South. CHEW, Medical Laboratory Technician, Public Health and Pharmacy Technician programmes.",
       },
+      { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content: "Zenith College of Health Science and Technology, Jos",
+      },
+      {
+        name: "twitter:description",
+        content: "Accredited health science college in Bukuru, Jos South. CHEW, MLT, Public Health and Pharmacy Technician programmes.",
+      },
     ],
     links: [{ rel: "canonical", href: "/" }],
+
   }),
   component: Index,
 });
@@ -83,11 +104,14 @@ const programmes = [
 
 function Index() {
   const [active, setActive] = useState(0);
+  const [playing, setPlaying] = useState(true);
 
   useEffect(() => {
+    if (!playing) return;
     const id = setInterval(() => setActive((i) => (i + 1) % slides.length), 5000);
     return () => clearInterval(id);
-  }, []);
+  }, [playing]);
+
 
   return (
     <>
@@ -131,18 +155,51 @@ function Index() {
               Explore Programmes
             </Link>
           </div>
-          <div className="mt-10 flex gap-2">
-            {slides.map((slide, i) => (
-              <button
-                key={slide.caption}
-                aria-label={slide.caption}
-                onClick={() => setActive(i)}
-                className={`h-1.5 rounded-full transition-all ${
-                  i === active ? "w-10 bg-gold" : "w-4 bg-primary-foreground/40"
-                }`}
-              />
-            ))}
+          <div className="mt-10 flex items-center gap-3">
+            <button
+              type="button"
+              aria-label="Previous slide"
+              onClick={() => setActive((i) => (i - 1 + slides.length) % slides.length)}
+              className="grid h-11 w-11 place-items-center rounded-full border border-primary-foreground/40 hover:bg-primary-foreground/10"
+            >
+              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              aria-label={playing ? "Pause slideshow" : "Play slideshow"}
+              onClick={() => setPlaying((p) => !p)}
+              className="grid h-11 w-11 place-items-center rounded-full border border-primary-foreground/40 hover:bg-primary-foreground/10"
+            >
+              {playing ? (
+                <Pause className="h-5 w-5" aria-hidden="true" />
+              ) : (
+                <Play className="h-5 w-5" aria-hidden="true" />
+              )}
+            </button>
+            <button
+              type="button"
+              aria-label="Next slide"
+              onClick={() => setActive((i) => (i + 1) % slides.length)}
+              className="grid h-11 w-11 place-items-center rounded-full border border-primary-foreground/40 hover:bg-primary-foreground/10"
+            >
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <div className="ml-2 flex gap-2">
+              {slides.map((slide, i) => (
+                <button
+                  key={slide.caption}
+                  type="button"
+                  aria-label={`Show slide: ${slide.caption}`}
+                  aria-current={i === active}
+                  onClick={() => setActive(i)}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === active ? "w-10 bg-gold" : "w-4 bg-primary-foreground/40"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
+
         </div>
       </section>
 
