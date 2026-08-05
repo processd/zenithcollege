@@ -10,6 +10,11 @@ import {
   ShieldCheck,
   Users,
   ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  Pause,
+
 } from "lucide-react";
 import nursingGroup from "@/assets/nursing-group.jpg.asset.json";
 import studentsNursing from "@/assets/students-nursing.png.asset.json";
