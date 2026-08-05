@@ -10,8 +10,10 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdmissionsRouteImport } from './routes/admissions'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as DepartmentsRouteImport } from './routes/departments'
 import { Route as DownloadsRouteImport } from './routes/downloads'
@@ -21,10 +23,15 @@ import { Route as NewsRouteImport } from './routes/news'
 import { Route as ProgrammesRouteImport } from './routes/programmes'
 import { Route as StaffPortalRouteImport } from './routes/staff-portal'
 import { Route as StudentPortalRouteImport } from './routes/student-portal'
+import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -35,6 +42,11 @@ const AboutRoute = AboutRouteImport.update({
 const AdmissionsRoute = AdmissionsRouteImport.update({
   id: '/admissions',
   path: '/admissions',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -82,11 +94,17 @@ const StudentPortalRoute = StudentPortalRouteImport.update({
   path: '/student-portal',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admissions': typeof AdmissionsRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/departments': typeof DepartmentsRoute
   '/downloads': typeof DownloadsRoute
@@ -96,11 +114,13 @@ export interface FileRoutesByFullPath {
   '/programmes': typeof ProgrammesRoute
   '/staff-portal': typeof StaffPortalRoute
   '/student-portal': typeof StudentPortalRoute
+  '/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/admissions': typeof AdmissionsRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/departments': typeof DepartmentsRoute
   '/downloads': typeof DownloadsRoute
@@ -110,12 +130,15 @@ export interface FileRoutesByTo {
   '/programmes': typeof ProgrammesRoute
   '/staff-portal': typeof StaffPortalRoute
   '/student-portal': typeof StudentPortalRoute
+  '/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/admissions': typeof AdmissionsRoute
+  '/auth': typeof AuthRoute
   '/contact': typeof ContactRoute
   '/departments': typeof DepartmentsRoute
   '/downloads': typeof DownloadsRoute
@@ -125,6 +148,7 @@ export interface FileRoutesById {
   '/programmes': typeof ProgrammesRoute
   '/staff-portal': typeof StaffPortalRoute
   '/student-portal': typeof StudentPortalRoute
+  '/_authenticated/admin': typeof AuthenticatedAdminRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -132,6 +156,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/admissions'
+    | '/auth'
     | '/contact'
     | '/departments'
     | '/downloads'
@@ -141,11 +166,13 @@ export interface FileRouteTypes {
     | '/programmes'
     | '/staff-portal'
     | '/student-portal'
+    | '/admin'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/admissions'
+    | '/auth'
     | '/contact'
     | '/departments'
     | '/downloads'
@@ -155,11 +182,14 @@ export interface FileRouteTypes {
     | '/programmes'
     | '/staff-portal'
     | '/student-portal'
+    | '/admin'
   id:
     | '__root__'
     | '/'
+    | '/_authenticated'
     | '/about'
     | '/admissions'
+    | '/auth'
     | '/contact'
     | '/departments'
     | '/downloads'
@@ -169,12 +199,15 @@ export interface FileRouteTypes {
     | '/programmes'
     | '/staff-portal'
     | '/student-portal'
+    | '/_authenticated/admin'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AdmissionsRoute: typeof AdmissionsRoute
+  AuthRoute: typeof AuthRoute
   ContactRoute: typeof ContactRoute
   DepartmentsRoute: typeof DepartmentsRoute
   DownloadsRoute: typeof DownloadsRoute
@@ -195,6 +228,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -207,6 +247,13 @@ declare module '@tanstack/react-router' {
       path: '/admissions'
       fullPath: '/admissions'
       preLoaderRoute: typeof AdmissionsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contact': {
@@ -272,13 +319,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof StudentPortalRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/admin': {
+      id: '/_authenticated/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AdmissionsRoute: AdmissionsRoute,
+  AuthRoute: AuthRoute,
   ContactRoute: ContactRoute,
   DepartmentsRoute: DepartmentsRoute,
   DownloadsRoute: DownloadsRoute,
