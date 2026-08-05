@@ -99,11 +99,14 @@ const programmes = [
 
 function Index() {
   const [active, setActive] = useState(0);
+  const [playing, setPlaying] = useState(true);
 
   useEffect(() => {
+    if (!playing) return;
     const id = setInterval(() => setActive((i) => (i + 1) % slides.length), 5000);
     return () => clearInterval(id);
-  }, []);
+  }, [playing]);
+
 
   return (
     <>
