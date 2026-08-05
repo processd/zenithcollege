@@ -93,12 +93,14 @@ export const checkApplicationStatus = createServerFn({ method: "POST" })
     };
   });
 
-async function assertAdmin(supabase: {
+type AdminCheckClient = {
   rpc: (
     fn: "has_role",
     args: { _user_id: string; _role: "admin" },
-  ) => Promise<{ data: boolean | null }>;
-}, userId: string) {
+  ) => PromiseLike<{ data: boolean | null }>;
+};
+
+async function assertAdmin(supabase: AdminCheckClient, userId: string) {
   const { data } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
   if (!data) throw new Error("Forbidden: administrator access required.");
 }
