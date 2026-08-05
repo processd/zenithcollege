@@ -29,6 +29,11 @@ export const Route = createFileRoute("/")({
           "Accredited health science college in Bukuru, Jos South. CHEW, Medical Laboratory Technician, Public Health and Pharmacy Technician programmes.",
       },
       {
+        name: "keywords",
+        content:
+          "Zenith College of Health Science Jos, health college Plateau State, CHEW school Nigeria, medical laboratory technician Jos, apply health college",
+      },
+      {
         property: "og:title",
         content: "Zenith College of Health Science and Technology, Jos",
       },
@@ -36,9 +41,20 @@ export const Route = createFileRoute("/")({
         property: "og:description",
         content: "Accredited health science college in Bukuru, Jos South. CHEW, Medical Laboratory Technician, Public Health and Pharmacy Technician programmes.",
       },
+      { property: "og:type", content: "website" },
       { property: "og:url", content: "/" },
+      { name: "twitter:card", content: "summary_large_image" },
+      {
+        name: "twitter:title",
+        content: "Zenith College of Health Science and Technology, Jos",
+      },
+      {
+        name: "twitter:description",
+        content: "Accredited health science college in Bukuru, Jos South. CHEW, MLT, Public Health and Pharmacy Technician programmes.",
+      },
     ],
     links: [{ rel: "canonical", href: "/" }],
+
   }),
   component: Index,
 });
