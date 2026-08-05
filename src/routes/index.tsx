@@ -150,18 +150,51 @@ function Index() {
               Explore Programmes
             </Link>
           </div>
-          <div className="mt-10 flex gap-2">
-            {slides.map((slide, i) => (
-              <button
-                key={slide.caption}
-                aria-label={slide.caption}
-                onClick={() => setActive(i)}
-                className={`h-1.5 rounded-full transition-all ${
-                  i === active ? "w-10 bg-gold" : "w-4 bg-primary-foreground/40"
-                }`}
-              />
-            ))}
+          <div className="mt-10 flex items-center gap-3">
+            <button
+              type="button"
+              aria-label="Previous slide"
+              onClick={() => setActive((i) => (i - 1 + slides.length) % slides.length)}
+              className="grid h-11 w-11 place-items-center rounded-full border border-primary-foreground/40 hover:bg-primary-foreground/10"
+            >
+              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <button
+              type="button"
+              aria-label={playing ? "Pause slideshow" : "Play slideshow"}
+              onClick={() => setPlaying((p) => !p)}
+              className="grid h-11 w-11 place-items-center rounded-full border border-primary-foreground/40 hover:bg-primary-foreground/10"
+            >
+              {playing ? (
+                <Pause className="h-5 w-5" aria-hidden="true" />
+              ) : (
+                <Play className="h-5 w-5" aria-hidden="true" />
+              )}
+            </button>
+            <button
+              type="button"
+              aria-label="Next slide"
+              onClick={() => setActive((i) => (i + 1) % slides.length)}
+              className="grid h-11 w-11 place-items-center rounded-full border border-primary-foreground/40 hover:bg-primary-foreground/10"
+            >
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </button>
+            <div className="ml-2 flex gap-2">
+              {slides.map((slide, i) => (
+                <button
+                  key={slide.caption}
+                  type="button"
+                  aria-label={`Show slide: ${slide.caption}`}
+                  aria-current={i === active}
+                  onClick={() => setActive(i)}
+                  className={`h-1.5 rounded-full transition-all ${
+                    i === active ? "w-10 bg-gold" : "w-4 bg-primary-foreground/40"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
+
         </div>
       </section>
 
