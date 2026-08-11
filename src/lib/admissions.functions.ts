@@ -93,32 +93,44 @@ export const checkApplicationStatus = createServerFn({ method: "POST" })
     };
   });
 
-type AdminCheckClient = {
-  rpc: (
-    fn: "has_role",
-    args: { _user_id: string; _role: "admin" },
-  ) => PromiseLike<{ data: boolean | null }>;
-};
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/** Role checks read the user_roles table directly under RLS (users can read their own roles). */
+async function isAdmin(supabase: any, userId: string): Promise<boolean> {
+  const { count } = await supabase
+    .from("user_roles")
+    .select("id", { count: "exact", head: true })
+    .eq("user_id", userId)
+    .eq("role", "admin");
+  return (count ?? 0) > 0;
+}
 
-async function assertAdmin(supabase: AdminCheckClient, userId: string) {
-  const { data } = await supabase.rpc("has_role", { _user_id: userId, _role: "admin" });
-  if (!data) throw new Error("Forbidden: administrator access required.");
+async function assertAdmin(supabase: any, userId: string) {
+  if (!(await isAdmin(supabase, userId))) {
+    throw new Error("Forbidden: administrator access required.");
+  }
 }
 
 export const getAdminStatus = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
-    const { data } = await context.supabase.rpc("has_role", {
-      _user_id: context.userId,
-      _role: "admin",
-    });
-    return { isAdmin: Boolean(data) };
+    return { isAdmin: await isAdmin(context.supabase, context.userId) };
   });
 
-/** Bootstrap: the very first registered account becomes the administrator. */
+/**
+ * Bootstrap the first administrator. Requires the server-side ADMIN_SETUP_CODE
+ * secret so a random visitor cannot race to claim the admin role.
+ */
 export const claimFirstAdmin = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
+  .inputValidator((input: unknown) =>
+    z.object({ setupCode: z.string().trim().min(1).max(200) }).parse(input),
+  )
+  .handler(async ({ data, context }) => {
+    const expected = process.env["ADMIN_SETUP_CODE"];
+    if (!expected || data.setupCode !== expected) {
+      throw new Error("Invalid administrator setup code.");
+    }
+
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { count } = await supabaseAdmin
