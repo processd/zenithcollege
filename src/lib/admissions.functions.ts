@@ -93,21 +93,9 @@ export const checkApplicationStatus = createServerFn({ method: "POST" })
     };
   });
 
-type RoleCheckClient = {
-  from: (table: "user_roles") => {
-    select: (columns: string, options: { count: "exact"; head: true }) => {
-      eq: (
-        column: "user_id",
-        value: string,
-      ) => {
-        eq: (column: "role", value: "admin") => PromiseLike<{ count: number | null }>;
-      };
-    };
-  };
-};
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /** Role checks read the user_roles table directly under RLS (users can read their own roles). */
-async function isAdmin(supabase: RoleCheckClient, userId: string) {
+async function isAdmin(supabase: any, userId: string): Promise<boolean> {
   const { count } = await supabase
     .from("user_roles")
     .select("id", { count: "exact", head: true })
@@ -116,7 +104,7 @@ async function isAdmin(supabase: RoleCheckClient, userId: string) {
   return (count ?? 0) > 0;
 }
 
-async function assertAdmin(supabase: RoleCheckClient, userId: string) {
+async function assertAdmin(supabase: any, userId: string) {
   if (!(await isAdmin(supabase, userId))) {
     throw new Error("Forbidden: administrator access required.");
   }
