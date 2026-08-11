@@ -30,6 +30,7 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
+  const [setupCode, setSetupCode] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -60,7 +61,9 @@ function AuthPage() {
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) throw signInError;
 
-      await claimFirstAdmin();
+      if (mode === "signup") {
+        await claimFirstAdmin({ data: { setupCode } });
+      }
       const { isAdmin } = await getAdminStatus();
       if (!isAdmin) {
         setNotice(
@@ -123,6 +126,29 @@ function AuthPage() {
             className="rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
           />
         </div>
+
+        {mode === "signup" && (
+          <div className="grid gap-1.5">
+            <label
+              htmlFor="admin-setup-code"
+              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
+            >
+              Administrator Setup Code
+            </label>
+            <input
+              id="admin-setup-code"
+              type="password"
+              autoComplete="off"
+              required
+              value={setupCode}
+              onChange={(e) => setSetupCode(e.target.value)}
+              className="rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
+            />
+            <p className="text-xs text-muted-foreground">
+              Issued by the ICT Centre. Required to create the first administrator account.
+            </p>
+          </div>
+        )}
 
         {error && (
           <p role="alert" className="text-sm font-medium text-destructive">
