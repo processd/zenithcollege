@@ -119,6 +119,33 @@ export type Database = {
         }
         Relationships: []
       }
+      user_role_audit: {
+        Row: {
+          action: string
+          created_at: string
+          id: string
+          performed_by: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          target_user_id: string
+        }
+        Insert: {
+          action: string
+          created_at?: string
+          id?: string
+          performed_by?: string | null
+          role: Database["public"]["Enums"]["app_role"]
+          target_user_id: string
+        }
+        Update: {
+          action?: string
+          created_at?: string
+          id?: string
+          performed_by?: string | null
+          role?: Database["public"]["Enums"]["app_role"]
+          target_user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -148,7 +175,17 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      app_role: "admin" | "staff"
+      app_role:
+        | "admin"
+        | "staff"
+        | "super_admin"
+        | "provost"
+        | "deputy_provost"
+        | "registrar"
+        | "admissions_officer"
+        | "hod"
+        | "lecturer"
+        | "student"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -276,7 +313,18 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "staff"],
+      app_role: [
+        "admin",
+        "staff",
+        "super_admin",
+        "provost",
+        "deputy_provost",
+        "registrar",
+        "admissions_officer",
+        "hod",
+        "lecturer",
+        "student",
+      ],
     },
   },
 } as const
