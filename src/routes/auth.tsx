@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { claimFirstAdmin, getAdminStatus } from "@/lib/admissions.functions";
+import { getAdminStatus } from "@/lib/admissions.functions";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -30,7 +30,6 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const [setupCode, setSetupCode] = useState("");
 
   useEffect(() => {
     let cancelled = false;
@@ -61,13 +60,10 @@ function AuthPage() {
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) throw signInError;
 
-      if (mode === "signup") {
-        await claimFirstAdmin({ data: { setupCode } });
-      }
       const { isAdmin } = await getAdminStatus();
       if (!isAdmin) {
         setNotice(
-          "Your account was created but has not been granted administrator access yet. Contact the ICT Centre.",
+          "Signed in. This account has no administrator role yet. If you are the designated first administrator, open /setup to complete the one-time super administrator setup; otherwise contact the ICT Centre.",
         );
         setBusy(false);
         return;
@@ -126,29 +122,6 @@ function AuthPage() {
             className="rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
           />
         </div>
-
-        {mode === "signup" && (
-          <div className="grid gap-1.5">
-            <label
-              htmlFor="admin-setup-code"
-              className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
-            >
-              Administrator Setup Code
-            </label>
-            <input
-              id="admin-setup-code"
-              type="password"
-              autoComplete="off"
-              required
-              value={setupCode}
-              onChange={(e) => setSetupCode(e.target.value)}
-              className="rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
-            />
-            <p className="text-xs text-muted-foreground">
-              Issued by the ICT Centre. Required to create the first administrator account.
-            </p>
-          </div>
-        )}
 
         {error && (
           <p role="alert" className="text-sm font-medium text-destructive">
