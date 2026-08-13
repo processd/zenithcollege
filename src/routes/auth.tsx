@@ -1,7 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { claimFirstAdmin, getAdminStatus } from "@/lib/admissions.functions";
+import { getAdminStatus } from "@/lib/admissions.functions";
 
 export const Route = createFileRoute("/auth")({
   head: () => ({
@@ -30,7 +30,6 @@ function AuthPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
-  const [setupCode, setSetupCode] = useState("");
 
   useEffect(() => {
     let cancelled = false;
