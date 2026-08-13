@@ -116,37 +116,6 @@ export const getAdminStatus = createServerFn({ method: "GET" })
     return { isAdmin: await isAdmin(context.supabase, context.userId) };
   });
 
-/**
- * Bootstrap the first administrator. Requires the server-side ADMIN_SETUP_CODE
- * secret so a random visitor cannot race to claim the admin role.
- */
-export const claimFirstAdmin = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((input: unknown) =>
-    z.object({ setupCode: z.string().trim().min(1).max(200) }).parse(input),
-  )
-  .handler(async ({ data, context }) => {
-    const expected = process.env["ADMIN_SETUP_CODE"];
-    if (!expected || data.setupCode !== expected) {
-      throw new Error("Invalid administrator setup code.");
-    }
-
-    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-
-    const { count } = await supabaseAdmin
-      .from("user_roles")
-      .select("id", { count: "exact", head: true })
-      .eq("role", "admin");
-
-    if ((count ?? 0) > 0) return { claimed: false };
-
-    const { error } = await supabaseAdmin
-      .from("user_roles")
-      .insert({ user_id: context.userId, role: "admin" });
-    if (error) return { claimed: false };
-    return { claimed: true };
-  });
-
 export const listApplications = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
   .handler(async ({ context }) => {
