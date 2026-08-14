@@ -1,0 +1,1 @@
+GRANT EXECUTE ON FUNCTION private.is_portal_admin(uuid) TO authenticated, service_role;
