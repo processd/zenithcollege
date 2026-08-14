@@ -94,15 +94,20 @@ export const checkApplicationStatus = createServerFn({ method: "POST" })
   });
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/** Role checks read the user_roles table directly under RLS (users can read their own roles). */
+/**
+ * Role checks read the user_roles table directly under RLS (users can read their own roles).
+ * Portal administrators are accounts holding either the legacy `admin` role or `super_admin`.
+ * Other roles (provost, registrar, hod, lecturer, student, …) are NOT administrators.
+ */
 async function isAdmin(supabase: any, userId: string): Promise<boolean> {
   const { count } = await supabase
     .from("user_roles")
     .select("id", { count: "exact", head: true })
     .eq("user_id", userId)
-    .eq("role", "admin");
+    .in("role", ["admin", "super_admin"]);
   return (count ?? 0) > 0;
 }
+
 
 async function assertAdmin(supabase: any, userId: string) {
   if (!(await isAdmin(supabase, userId))) {
