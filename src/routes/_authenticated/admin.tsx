@@ -1,6 +1,7 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { AcademicsPanel } from "@/components/admin/AcademicsPanel";
 import {
   deleteApplication,
   getAdminStatus,
@@ -71,7 +72,7 @@ const CATEGORIES = [
 
 function AdminDashboard() {
   const navigate = useNavigate();
-  const [tab, setTab] = useState<"applications" | "documents">("applications");
+  const [tab, setTab] = useState<"applications" | "documents" | "academics">("applications");
   const [allowed, setAllowed] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -123,8 +124,8 @@ function AdminDashboard() {
         </button>
       </div>
 
-      <div className="mt-8 flex gap-2 border-b border-border">
-        {(["applications", "documents"] as const).map((t) => (
+      <div className="mt-8 flex gap-2 overflow-x-auto border-b border-border">
+        {(["applications", "documents", "academics"] as const).map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
@@ -141,7 +142,9 @@ function AdminDashboard() {
       </div>
 
       <div className="mt-8">
-        {tab === "applications" ? <ApplicationsPanel /> : <DocumentsPanel />}
+        {tab === "applications" && <ApplicationsPanel />}
+        {tab === "documents" && <DocumentsPanel />}
+        {tab === "academics" && <AcademicsPanel />}
       </div>
     </section>
   );
