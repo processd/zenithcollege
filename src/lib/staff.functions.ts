@@ -557,7 +557,9 @@ export const getAttendanceSheet = createServerFn({ method: "POST" })
       .select("student_id, status, remark")
       .eq("course_id", data.courseId)
       .eq("class_date", data.classDate);
-    const markMap = new Map((marks ?? []).map((m: any) => [m.student_id, m]));
+    const markMap = new Map<string, string>(
+      (marks ?? []).map((m: any) => [m.student_id as string, m.status as string]),
+    );
 
     return (regs ?? [])
       .filter((r: any) => r.students)
@@ -565,7 +567,7 @@ export const getAttendanceSheet = createServerFn({ method: "POST" })
         studentId: r.student_id,
         fullName: r.students.full_name,
         matricNumber: r.students.matric_number,
-        status: markMap.get(r.student_id)?.status ?? "present",
+        status: markMap.get(r.student_id) ?? "present",
       }))
       .sort((a: any, b: any) => a.fullName.localeCompare(b.fullName));
   });
