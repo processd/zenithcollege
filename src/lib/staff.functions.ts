@@ -567,7 +567,7 @@ export const getAttendanceSheet = createServerFn({ method: "POST" })
         studentId: r.student_id,
         fullName: r.students.full_name,
         matricNumber: r.students.matric_number,
-        status: markMap.get(r.student_id)?.status ?? "present",
+        status: markMap.get(r.student_id) ?? "present",
       }))
       .sort((a: any, b: any) => a.fullName.localeCompare(b.fullName));
   });
