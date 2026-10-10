@@ -16,6 +16,9 @@ export const Route = createFileRoute("/news")({
     ],
     links: [{ rel: "canonical", href: "/news" }],
   }),
+  loader: () => listPublishedNews(),
+  errorComponent: () => <p className="p-8 text-center text-sm">News is unavailable right now.</p>,
+  notFoundComponent: () => <p className="p-8 text-center text-sm">Not found.</p>,
   component: News,
 });
 
@@ -60,6 +63,7 @@ const notices = [
 ];
 
 function News() {
+  const posts = Route.useLoaderData();
   return (
     <>
       <PageHero
