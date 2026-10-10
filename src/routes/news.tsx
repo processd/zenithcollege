@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Section } from "@/components/site/PageHero";
+import { listPublishedNews } from "@/lib/news.functions";
 
 export const Route = createFileRoute("/news")({
   head: () => ({
@@ -16,6 +17,9 @@ export const Route = createFileRoute("/news")({
     ],
     links: [{ rel: "canonical", href: "/news" }],
   }),
+  loader: () => listPublishedNews(),
+  errorComponent: () => <p className="p-8 text-center text-sm">News is unavailable right now.</p>,
+  notFoundComponent: () => <p className="p-8 text-center text-sm">Not found.</p>,
   component: News,
 });
 
@@ -60,6 +64,7 @@ const notices = [
 ];
 
 function News() {
+  const posts = Route.useLoaderData();
   return (
     <>
       <PageHero
@@ -67,6 +72,23 @@ function News() {
         title="News, events and public notices"
         subtitle="Stay updated with announcements from the Registry and Students' Affairs."
       />
+
+      {posts.length > 0 && (
+        <Section title="Official Announcements">
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((p) => (
+              <article key={p.id} className="rounded-xl border border-border bg-card p-6 shadow-card">
+                <p className="text-xs font-semibold uppercase tracking-wider text-primary">
+                  {p.category}
+                  {p.published_at ? ` · ${new Date(p.published_at).toLocaleDateString("en-GB")}` : ""}
+                </p>
+                <h3 className="mt-2 font-display text-lg font-bold">{p.title}</h3>
+                <p className="mt-2 whitespace-pre-line text-sm text-muted-foreground">{p.body}</p>
+              </article>
+            ))}
+          </div>
+        </Section>
+      )}
 
       <Section title="Latest News">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
