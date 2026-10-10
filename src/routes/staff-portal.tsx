@@ -71,12 +71,15 @@ function StaffPortal() {
                   htmlFor="staffid"
                   className="text-xs font-semibold uppercase tracking-wider text-muted-foreground"
                 >
-                  Staff ID
+                  Staff Email
                 </label>
                 <input
                   id="staffid"
+                  type="email"
+                  autoComplete="email"
                   required
-                  maxLength={30}
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
                 />
               </div>
@@ -90,17 +93,29 @@ function StaffPortal() {
                 <input
                   id="staffpass"
                   type="password"
+                  autoComplete="current-password"
                   required
                   maxLength={64}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="rounded-lg border border-input bg-background px-3 py-2.5 text-sm"
                 />
               </div>
+              {error && (
+                <p role="alert" className="text-sm font-medium text-destructive">
+                  {error}
+                </p>
+              )}
               <button
                 type="submit"
-                className="rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground"
+                disabled={busy}
+                className="rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
               >
-                Login
+                {busy ? "Signing in…" : "Login"}
               </button>
+              <p className="text-xs text-muted-foreground">
+                Staff accounts and roles are issued by the ICT Centre / Registry.
+              </p>
             </div>
           </form>
 
