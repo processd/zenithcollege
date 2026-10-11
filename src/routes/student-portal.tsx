@@ -87,12 +87,55 @@ const SESSIONS = ["2025/2026", "2026/2027", "2027/2028"];
 const naira = (n: number) =>
   `₦${Number(n).toLocaleString("en-NG", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 
+const TAB_INFO: Record<Tab, string> = {
+  "Admission Status": "See your application review status and notes from Admissions.",
+  "Register Courses": "Choose your courses for a session and semester.",
+  "Check Results": "View published results, GPA and CGPA on the 4.00 scale.",
+  "School Fees": "See billed, paid and outstanding fees and notify the Bursary.",
+  "Admission Letter": "Print your provisional admission letter (admitted students).",
+  "Examination Card": "Print your exam card for registered courses.",
+  Receipts: "Print official receipts for confirmed payments.",
+};
+
+const STORAGE_KEY = "zc-student-portal";
+
 function StudentPortal() {
   const [creds, setCreds] = useState<Creds | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [busy, setBusy] = useState(false);
+  const [restoring, setRestoring] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [tab, setTab] = useState<Tab>("Admission Status");
+  const [tab, setTab] = useState<Tab | "Dashboard">("Dashboard");
+  const [hint, setHint] = useState<string | null>(null);
+
+  // Restore an existing sign-in after refresh, screen rotation or printing.
+  useEffect(() => {
+    let saved: Creds | null = null;
+    try {
+      const raw = sessionStorage.getItem(STORAGE_KEY);
+      if (raw) saved = JSON.parse(raw);
+    } catch {
+      /* ignore */
+    }
+    if (!saved) {
+      setRestoring(false);
+      return;
+    }
+    portalSignIn({ data: saved })
+      .then((res) => {
+        if (res.found) {
+          setCreds(saved);
+          setSession(res);
+        } else sessionStorage.removeItem(STORAGE_KEY);
+      })
+      .catch(() => undefined)
+      .finally(() => setRestoring(false));
+  }, []);
+
+  function openTab(t: Tab | "Dashboard") {
+    setTab(t);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -112,7 +155,14 @@ function StudentPortal() {
       } else {
         setCreds(next);
         setSession(res);
-        setTab("Admission Status");
+        try {
+          sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+        } catch {
+          /* ignore */
+        }
+        const wanted = hint && (TABS as readonly string[]).includes(hint) ? (hint as Tab) : "Dashboard";
+        setTab(wanted);
+        setHint(null);
       }
     } catch {
       setError("We could not reach the portal right now. Please try again.");
@@ -122,9 +172,30 @@ function StudentPortal() {
   }
 
   function signOut() {
+    try {
+      sessionStorage.removeItem(STORAGE_KEY);
+    } catch {
+      /* ignore */
+    }
     setCreds(null);
     setSession(null);
     setError(null);
+    setTab("Dashboard");
+  }
+
+  function chooseBeforeLogin(s: Tab) {
+    setHint(s);
+    const el = document.getElementById("applicationNumber");
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    (el as HTMLInputElement | null)?.focus();
+  }
+
+  if (restoring) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-20">
+        <Notice>Opening your student portal…</Notice>
+      </div>
+    );
   }
 
   if (!creds || !session) {
@@ -142,6 +213,11 @@ function StudentPortal() {
               onSubmit={onSubmit}
             >
               <h2 className="font-display text-xl font-bold">Portal Login</h2>
+              {hint && (
+                <p className="mt-3 rounded-lg bg-secondary p-3 text-sm text-foreground">
+                  Sign in to open <strong>{hint}</strong>.
+                </p>
+              )}
               <div className="mt-6 grid gap-4">
                 <Field
                   id="applicationNumber"
@@ -180,14 +256,22 @@ function StudentPortal() {
 
             <div>
               <h2 className="font-display text-xl font-bold">Portal Services</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Tap a service, then sign in to open it.
+              </p>
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 {TABS.map((s) => (
-                  <div
+                  <button
                     key={s}
-                    className="rounded-xl border border-border bg-card px-5 py-4 text-sm font-semibold shadow-card"
+                    type="button"
+                    onClick={() => chooseBeforeLogin(s)}
+                    className={`rounded-xl border bg-card px-5 py-4 text-left shadow-card transition-colors hover:border-primary ${
+                      hint === s ? "border-primary" : "border-border"
+                    }`}
                   >
-                    {s}
-                  </div>
+                    <span className="block text-sm font-semibold">{s}</span>
+                    <span className="mt-1 block text-xs text-muted-foreground">{TAB_INFO[s]}</span>
+                  </button>
                 ))}
               </div>
               <p className="mt-6 text-sm text-muted-foreground">
@@ -206,13 +290,13 @@ function StudentPortal() {
   return (
     <>
       <section className="band-gradient text-primary-foreground print:hidden">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-10">
-          <div>
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-8">
+          <div className="min-w-0">
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-gold">
-              Student Portal
+              Student Dashboard
             </p>
             <h1 className="mt-2 font-display text-2xl font-bold md:text-3xl">{app.fullName}</h1>
-            <p className="mt-1 text-sm opacity-85">
+            <p className="mt-1 break-words text-sm opacity-85">
               {app.applicationNumber} · {app.programme}
               {session.student?.matricNumber ? ` · ${session.student.matricNumber}` : ""}
             </p>
@@ -227,11 +311,28 @@ function StudentPortal() {
       </section>
 
       <div className="border-b border-border bg-card print:hidden">
-        <div className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4">
-          {TABS.map((t) => (
+        <div className="mx-auto max-w-7xl px-4 py-3 md:hidden">
+          <label className="grid gap-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            Go to service
+            <select
+              value={tab}
+              onChange={(e) => openTab(e.target.value as Tab | "Dashboard")}
+              className="rounded-lg border border-input bg-background px-3 py-3 text-sm font-normal normal-case tracking-normal text-foreground"
+            >
+              <option value="Dashboard">Student Dashboard</option>
+              {TABS.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+        <div className="mx-auto hidden max-w-7xl gap-1 overflow-x-auto px-4 md:flex">
+          {(["Dashboard", ...TABS] as const).map((t) => (
             <button
               key={t}
-              onClick={() => setTab(t)}
+              onClick={() => openTab(t)}
               aria-current={tab === t ? "page" : undefined}
               className={`-mb-px whitespace-nowrap border-b-2 px-3 py-3 text-sm font-semibold ${
                 tab === t
@@ -239,22 +340,82 @@ function StudentPortal() {
                   : "border-transparent text-muted-foreground hover:text-foreground"
               }`}
             >
-              {t}
+              {t === "Dashboard" ? "Dashboard" : t}
             </button>
           ))}
         </div>
       </div>
 
-      <div className="mx-auto max-w-7xl px-4 py-10">
-        {tab === "Admission Status" && <StatusPanel session={session} />}
-        {tab === "Register Courses" && <CoursesPanel creds={creds} />}
-        {tab === "Check Results" && <ResultsPanel creds={creds} />}
-        {tab === "School Fees" && <FeesPanel creds={creds} />}
-        {tab === "Admission Letter" && <LetterPanel creds={creds} />}
-        {tab === "Examination Card" && <ExamCardPanel creds={creds} />}
-        {tab === "Receipts" && <ReceiptsPanel creds={creds} />}
+      <div className="mx-auto max-w-7xl px-4 py-8">
+        {tab === "Dashboard" ? (
+          <DashboardPanel session={session} onOpen={openTab} />
+        ) : (
+          <>
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3 print:hidden">
+              <button
+                onClick={() => openTab("Dashboard")}
+                className="rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold text-foreground hover:border-primary"
+              >
+                ← Back to Student Dashboard
+              </button>
+              <h2 className="font-display text-lg font-bold text-primary">{tab}</h2>
+            </div>
+            {tab === "Admission Status" && <StatusPanel session={session} />}
+            {tab === "Register Courses" && <CoursesPanel creds={creds} />}
+            {tab === "Check Results" && <ResultsPanel creds={creds} />}
+            {tab === "School Fees" && <FeesPanel creds={creds} />}
+            {tab === "Admission Letter" && <LetterPanel creds={creds} />}
+            {tab === "Examination Card" && (
+              <ExamCardPanel creds={creds} onRegister={() => openTab("Register Courses")} />
+            )}
+            {tab === "Receipts" && <ReceiptsPanel creds={creds} />}
+          </>
+        )}
       </div>
     </>
+  );
+}
+
+function DashboardPanel({
+  session,
+  onOpen,
+}: {
+  session: Session;
+  onOpen: (t: Tab) => void;
+}) {
+  const app = session.application;
+  const status = STATUS_COPY[app.status] ?? STATUS_COPY["pending"]!;
+  const admitted = app.status === "admitted";
+  return (
+    <div className="grid gap-6">
+      <Card>
+        <dl className="grid gap-4 text-sm sm:grid-cols-2 lg:grid-cols-4">
+          <Detail label="Admission status" value={status.label} />
+          <Detail label="Programme" value={app.programme} />
+          <Detail label="Matric number" value={session.student?.matricNumber ?? "Not yet assigned"} />
+          <Detail label="Application number" value={app.applicationNumber} />
+        </dl>
+        {!admitted && (
+          <p className="mt-4 rounded-lg bg-secondary p-3 text-sm text-foreground">
+            Courses, results, fees, letters, exam cards and receipts open once you are admitted.
+            You can still check your admission status.
+          </p>
+        )}
+      </Card>
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {TABS.map((t) => (
+          <button
+            key={t}
+            onClick={() => onOpen(t)}
+            className="rounded-xl border border-border bg-card p-5 text-left shadow-card transition-colors hover:border-primary"
+          >
+            <span className="block font-display text-base font-bold text-foreground">{t}</span>
+            <span className="mt-1 block text-sm text-muted-foreground">{TAB_INFO[t]}</span>
+            <span className="mt-3 inline-block text-sm font-semibold text-primary">Open →</span>
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
