@@ -1063,7 +1063,7 @@ function LetterPanel({ creds }: { creds: Creds }) {
   );
 }
 
-function ExamCardPanel({ creds }: { creds: Creds }) {
+function ExamCardPanel({ creds, onRegister }: { creds: Creds; onRegister?: () => void }) {
   const [session, setSession] = useState(SESSIONS[1]!);
   const [semester, setSemester] = useState<"First" | "Second">("First");
   const { data, loading } = useAsync(
@@ -1082,11 +1082,21 @@ function ExamCardPanel({ creds }: { creds: Creds }) {
       {loading ? (
         <Notice>Loading examination card…</Notice>
       ) : !data?.ok ? (
-        <Notice>
-          {data?.reason === "no_registration"
-            ? `No examination card is available: you have no registered course for ${session} ${semester} semester.`
-            : "Examination cards are issued to admitted, registered students only."}
-        </Notice>
+        <div className="grid gap-3">
+          <Notice>
+            {data?.reason === "no_registration"
+              ? `No examination card is available: you have no registered course for ${session} ${semester} semester.`
+              : "Examination cards are issued to admitted, registered students only."}
+          </Notice>
+          {data?.reason === "no_registration" && onRegister && (
+            <button
+              onClick={onRegister}
+              className="w-fit rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground"
+            >
+              Go to Register Courses
+            </button>
+          )}
+        </div>
       ) : (
         <>
           <PrintButton label="Print examination card" />
