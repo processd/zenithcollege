@@ -36,11 +36,13 @@ function StaffPortal() {
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
 
   async function onLogin(e: React.FormEvent) {
     e.preventDefault();
     setBusy(true);
     setError(null);
+    setNotice(null);
     const { error: err } = await supabase.auth.signInWithPassword({ email, password });
     if (err) {
       setError(err.message);
@@ -48,6 +50,28 @@ function StaffPortal() {
       return;
     }
     void navigate({ to: "/staff" });
+  }
+
+  async function onForgotPassword() {
+    if (!email.trim()) {
+      setError("Enter your staff email address above first, then tap “Forgot password?”.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    setNotice(null);
+    const { error: err } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setBusy(false);
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    // Deliberately vague: never reveal whether the email belongs to an account.
+    setNotice(
+      "If an account exists for that email address, a password reset link has been sent. Please check your inbox and spam folder.",
+    );
   }
 
   return (
@@ -106,12 +130,25 @@ function StaffPortal() {
                   {error}
                 </p>
               )}
+              {notice && (
+                <p role="status" className="text-sm font-medium text-primary">
+                  {notice}
+                </p>
+              )}
               <button
                 type="submit"
                 disabled={busy}
                 className="rounded-lg bg-primary px-5 py-3 text-sm font-semibold text-primary-foreground disabled:opacity-60"
               >
                 {busy ? "Signing in…" : "Login"}
+              </button>
+              <button
+                type="button"
+                onClick={() => void onForgotPassword()}
+                disabled={busy}
+                className="text-sm font-semibold text-primary hover:underline disabled:opacity-60"
+              >
+                Forgot password? Reset it by email
               </button>
               <p className="text-xs text-muted-foreground">
                 Staff accounts and roles are issued by the ICT Centre / Registry.
