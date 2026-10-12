@@ -11,6 +11,7 @@ import {
   getFees,
   getResults,
   portalSignIn,
+  recoverAccessCode,
   registerCourses,
 } from "@/lib/portal.functions";
 
@@ -107,6 +108,38 @@ function StudentPortal() {
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab | "Dashboard">("Dashboard");
   const [hint, setHint] = useState<string | null>(null);
+  const [recoverOpen, setRecoverOpen] = useState(false);
+  const [recoverBusy, setRecoverBusy] = useState(false);
+  const [recoverMsg, setRecoverMsg] = useState<string | null>(null);
+  const [recoveredCode, setRecoveredCode] = useState<string | null>(null);
+
+  async function onRecover(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    setRecoverBusy(true);
+    setRecoverMsg(null);
+    setRecoveredCode(null);
+    try {
+      const res = await recoverAccessCode({
+        data: {
+          applicationNumber: String(fd.get("recoverApplicationNumber") ?? ""),
+          email: String(fd.get("recoverEmail") ?? ""),
+          phone: String(fd.get("recoverPhone") ?? ""),
+        },
+      });
+      if (res.found) {
+        setRecoveredCode(res.accessCode);
+      } else {
+        setRecoverMsg(
+          "We could not match those details to an application. Check that the application number, email and phone number are exactly what you used when you applied, or call 08123335178 for help.",
+        );
+      }
+    } catch {
+      setRecoverMsg("We could not process that request right now. Please try again.");
+    } finally {
+      setRecoverBusy(false);
+    }
+  }
 
   // Restore an existing sign-in after refresh, screen rotation or printing.
   useEffect(() => {
@@ -249,8 +282,71 @@ function StudentPortal() {
                   <Link to="/admissions" className="font-semibold text-primary hover:underline">
                     Apply online here
                   </Link>
-                  . Lost your access code? Call 08123335178.
+                  .
                 </p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setRecoverOpen((v) => !v);
+                    setRecoverMsg(null);
+                    setRecoveredCode(null);
+                  }}
+                  className="text-left text-sm font-semibold text-primary hover:underline"
+                >
+                  Forgot your access code? Recover it here
+                </button>
+
+                {recoverOpen && (
+                  <form
+                    onSubmit={onRecover}
+                    className="grid gap-3 rounded-xl border border-border bg-secondary/40 p-4"
+                  >
+                    <p className="text-xs text-muted-foreground">
+                      Enter your application number plus the exact email address and phone number
+                      you used when you applied. If all three match, your access code will be shown.
+                    </p>
+                    <Field
+                      id="recoverApplicationNumber"
+                      label="Application Number"
+                      placeholder="ZC/2026/123456"
+                      maxLength={40}
+                    />
+                    <Field
+                      id="recoverEmail"
+                      label="Email Address"
+                      type="email"
+                      placeholder="you@example.com"
+                      maxLength={255}
+                    />
+                    <Field
+                      id="recoverPhone"
+                      label="Phone Number"
+                      placeholder="08012345678"
+                      maxLength={20}
+                    />
+                    {recoverMsg && (
+                      <p role="alert" className="text-sm font-medium text-destructive">
+                        {recoverMsg}
+                      </p>
+                    )}
+                    {recoveredCode && (
+                      <p role="status" className="rounded-lg bg-card p-3 text-sm">
+                        Your access code is{" "}
+                        <strong className="font-mono text-base tracking-widest text-primary">
+                          {recoveredCode}
+                        </strong>
+                        . Keep it safe — you need it every time you sign in.
+                      </p>
+                    )}
+                    <button
+                      type="submit"
+                      disabled={recoverBusy}
+                      className="rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground disabled:opacity-60"
+                    >
+                      {recoverBusy ? "Checking…" : "Recover my access code"}
+                    </button>
+                  </form>
+                )}
               </div>
             </form>
 
@@ -427,12 +523,14 @@ function Field({
   placeholder,
   maxLength,
   uppercase,
+  type = "text",
 }: {
   id: string;
   label: string;
   placeholder?: string;
   maxLength?: number;
   uppercase?: boolean;
+  type?: string;
 }) {
   return (
     <div className="grid gap-1.5">
@@ -445,6 +543,7 @@ function Field({
       <input
         id={id}
         name={id}
+        type={type}
         required
         maxLength={maxLength}
         placeholder={placeholder}

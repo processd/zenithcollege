@@ -31,6 +31,28 @@ function AuthPage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
+  async function onForgotPassword() {
+    if (!email.trim()) {
+      setError("Enter your email address above first, then tap “Forgot password?”.");
+      return;
+    }
+    setBusy(true);
+    setError(null);
+    setNotice(null);
+    const { error: err } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+    setBusy(false);
+    if (err) {
+      setError(err.message);
+      return;
+    }
+    // Deliberately vague: never reveal whether the email belongs to an account.
+    setNotice(
+      "If an account exists for that email address, a password reset link has been sent. Please check your inbox and spam folder.",
+    );
+  }
+
   useEffect(() => {
     let cancelled = false;
     void supabase.auth.getUser().then(({ data }) => {
@@ -151,6 +173,17 @@ function AuthPage() {
             ? "First time? Create the administrator account"
             : "I already have an account — log in"}
         </button>
+
+        {mode === "signin" && (
+          <button
+            type="button"
+            onClick={() => void onForgotPassword()}
+            disabled={busy}
+            className="text-sm font-semibold text-primary hover:underline disabled:opacity-60"
+          >
+            Forgot password? Reset it by email
+          </button>
+        )}
       </form>
 
       <Link to="/" className="mt-6 text-sm font-semibold text-primary hover:underline">

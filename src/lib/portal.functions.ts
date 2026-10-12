@@ -121,6 +121,39 @@ export const portalSignIn = createServerFn({ method: "POST" })
     };
   });
 
+/**
+ * Access-code recovery. The applicant must supply the application number plus
+ * the exact email address AND phone number on the application. Only when all
+ * three match is the access code returned — a wrong guess reveals nothing.
+ */
+export const recoverAccessCode = createServerFn({ method: "POST" })
+  .inputValidator((input: unknown) =>
+    z
+      .object({
+        applicationNumber: z.string().trim().min(4).max(40),
+        email: z.string().trim().email().max(255),
+        phone: z.string().trim().min(7).max(20),
+      })
+      .parse(input),
+  )
+  .handler(async ({ data }) => {
+    const db = await admin();
+    const { data: app } = await db
+      .from("applications")
+      .select("application_number, access_code, email, phone")
+      .eq("application_number", data.applicationNumber.trim().toUpperCase())
+      .maybeSingle();
+
+    const norm = (s: string) => s.replace(/[\s-]/g, "").toLowerCase();
+    const match =
+      app &&
+      norm(app.email ?? "") === norm(data.email) &&
+      norm(app.phone ?? "") === norm(data.phone);
+
+    if (!match) return { found: false as const };
+    return { found: true as const, accessCode: app.access_code as string };
+  });
+
 /* ------------------------------- Courses -------------------------------- */
 
 const regSchema = credsSchema.extend({
