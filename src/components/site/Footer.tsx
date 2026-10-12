@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import logo from "@/assets/logo.png.asset.json";
+const logo = { url: "/images/logo.png" };
 
 const quick = [
   { to: "/", label: "Home" },

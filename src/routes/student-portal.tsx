@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useCallback, useEffect, useState } from "react";
-import logo from "@/assets/logo.png.asset.json";
+const logo = { url: "/images/logo.png" };
 import { PageHero, Section } from "@/components/site/PageHero";
 import {
   declarePayment,

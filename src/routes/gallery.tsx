@@ -1,14 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { PageHero, Section } from "@/components/site/PageHero";
-import nursingGroup from "@/assets/nursing-group.jpg.asset.json";
-import studentsNursing from "@/assets/students-nursing.png.asset.json";
-import chewStudents from "@/assets/chew-students.png.asset.json";
-import mltStudents from "@/assets/mlt-students.jpg.asset.json";
-import studentPortrait from "@/assets/student-portrait.jpg.asset.json";
-import studentsCorridor from "@/assets/students-corridor.jpg.asset.json";
-import lectureSession from "@/assets/lecture-session.jpg.asset.json";
-import certificateAward from "@/assets/certificate-award.jpg.asset.json";
-import convocation from "@/assets/convocation.jpg.asset.json";
+const nursingGroup = { url: "/images/nursing-group.jpg" };
+const studentsNursing = { url: "/images/students-nursing.png" };
+const chewStudents = { url: "/images/chew-students.png" };
+const mltStudents = { url: "/images/mlt-students.jpg" };
+const studentPortrait = { url: "/images/student-portrait.jpg" };
+const studentsCorridor = { url: "/images/students-corridor.jpg" };
+const lectureSession = { url: "/images/lecture-session.jpg" };
+const certificateAward = { url: "/images/certificate-award.jpg" };
+const convocation = { url: "/images/convocation.jpg" };
 
 export const Route = createFileRoute("/gallery")({
   head: () => ({
