@@ -523,12 +523,14 @@ function Field({
   placeholder,
   maxLength,
   uppercase,
+  type = "text",
 }: {
   id: string;
   label: string;
   placeholder?: string;
   maxLength?: number;
   uppercase?: boolean;
+  type?: string;
 }) {
   return (
     <div className="grid gap-1.5">
@@ -541,6 +543,7 @@ function Field({
       <input
         id={id}
         name={id}
+        type={type}
         required
         maxLength={maxLength}
         placeholder={placeholder}
