@@ -21,6 +21,7 @@ import { Route as FaqRouteImport } from './routes/faq'
 import { Route as GalleryRouteImport } from './routes/gallery'
 import { Route as NewsRouteImport } from './routes/news'
 import { Route as ProgrammesRouteImport } from './routes/programmes'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as StaffPortalRouteImport } from './routes/staff-portal'
 import { Route as StudentPortalRouteImport } from './routes/student-portal'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
@@ -86,6 +87,11 @@ const ProgrammesRoute = ProgrammesRouteImport.update({
   path: '/programmes',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StaffPortalRoute = StaffPortalRouteImport.update({
   id: '/staff-portal',
   path: '/staff-portal',
@@ -124,6 +130,7 @@ export interface FileRoutesByFullPath {
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
   '/programmes': typeof ProgrammesRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/staff-portal': typeof StaffPortalRoute
   '/student-portal': typeof StudentPortalRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -142,6 +149,7 @@ export interface FileRoutesByTo {
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
   '/programmes': typeof ProgrammesRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/staff-portal': typeof StaffPortalRoute
   '/student-portal': typeof StudentPortalRoute
   '/admin': typeof AuthenticatedAdminRoute
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/gallery': typeof GalleryRoute
   '/news': typeof NewsRoute
   '/programmes': typeof ProgrammesRoute
+  '/reset-password': typeof ResetPasswordRoute
   '/staff-portal': typeof StaffPortalRoute
   '/student-portal': typeof StudentPortalRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/news'
     | '/programmes'
+    | '/reset-password'
     | '/staff-portal'
     | '/student-portal'
     | '/admin'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/news'
     | '/programmes'
+    | '/reset-password'
     | '/staff-portal'
     | '/student-portal'
     | '/admin'
@@ -219,6 +230,7 @@ export interface FileRouteTypes {
     | '/gallery'
     | '/news'
     | '/programmes'
+    | '/reset-password'
     | '/staff-portal'
     | '/student-portal'
     | '/_authenticated/admin'
@@ -239,6 +251,7 @@ export interface RootRouteChildren {
   GalleryRoute: typeof GalleryRoute
   NewsRoute: typeof NewsRoute
   ProgrammesRoute: typeof ProgrammesRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
   StaffPortalRoute: typeof StaffPortalRoute
   StudentPortalRoute: typeof StudentPortalRoute
 }
@@ -329,6 +342,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProgrammesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/staff-portal': {
       id: '/staff-portal'
       path: '/staff-portal'
@@ -395,6 +415,7 @@ const rootRouteChildren: RootRouteChildren = {
   GalleryRoute: GalleryRoute,
   NewsRoute: NewsRoute,
   ProgrammesRoute: ProgrammesRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
   StaffPortalRoute: StaffPortalRoute,
   StudentPortalRoute: StudentPortalRoute,
 }
