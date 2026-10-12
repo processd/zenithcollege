@@ -11,6 +11,7 @@ import {
   getFees,
   getResults,
   portalSignIn,
+  recoverAccessCode,
   registerCourses,
 } from "@/lib/portal.functions";
 
@@ -107,6 +108,38 @@ function StudentPortal() {
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab | "Dashboard">("Dashboard");
   const [hint, setHint] = useState<string | null>(null);
+  const [recoverOpen, setRecoverOpen] = useState(false);
+  const [recoverBusy, setRecoverBusy] = useState(false);
+  const [recoverMsg, setRecoverMsg] = useState<string | null>(null);
+  const [recoveredCode, setRecoveredCode] = useState<string | null>(null);
+
+  async function onRecover(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const fd = new FormData(e.currentTarget);
+    setRecoverBusy(true);
+    setRecoverMsg(null);
+    setRecoveredCode(null);
+    try {
+      const res = await recoverAccessCode({
+        data: {
+          applicationNumber: String(fd.get("recoverApplicationNumber") ?? ""),
+          email: String(fd.get("recoverEmail") ?? ""),
+          phone: String(fd.get("recoverPhone") ?? ""),
+        },
+      });
+      if (res.found) {
+        setRecoveredCode(res.accessCode);
+      } else {
+        setRecoverMsg(
+          "We could not match those details to an application. Check that the application number, email and phone number are exactly what you used when you applied, or call 08123335178 for help.",
+        );
+      }
+    } catch {
+      setRecoverMsg("We could not process that request right now. Please try again.");
+    } finally {
+      setRecoverBusy(false);
+    }
+  }
 
   // Restore an existing sign-in after refresh, screen rotation or printing.
   useEffect(() => {
