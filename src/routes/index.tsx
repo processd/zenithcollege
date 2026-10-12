@@ -16,13 +16,13 @@ import {
   Pause,
 
 } from "lucide-react";
-import nursingGroup from "@/assets/nursing-group.jpg.asset.json";
-import studentsNursing from "@/assets/students-nursing.png.asset.json";
-import chewStudents from "@/assets/chew-students.png.asset.json";
-import mltStudents from "@/assets/mlt-students.jpg.asset.json";
-import lectureSession from "@/assets/lecture-session.jpg.asset.json";
-import convocation from "@/assets/convocation.jpg.asset.json";
-import studentsCorridor from "@/assets/students-corridor.jpg.asset.json";
+const nursingGroup = { url: "/images/nursing-group.jpg" };
+const studentsNursing = { url: "/images/students-nursing.png" };
+const chewStudents = { url: "/images/chew-students.png" };
+const mltStudents = { url: "/images/mlt-students.jpg" };
+const lectureSession = { url: "/images/lecture-session.jpg" };
+const convocation = { url: "/images/convocation.jpg" };
+const studentsCorridor = { url: "/images/students-corridor.jpg" };
 
 export const Route = createFileRoute("/")({
   head: () => ({
