@@ -76,9 +76,11 @@ export function Footer() {
             <li>
               <a href="tel:08123335178">08123335178</a>
             </li>
-            <li>
-              <a href="tel:0803590921">0803590921</a>
-            </li>
+            {["0803590921", "07063924920", "08033894557"].map((p) => (
+              <li key={p}>
+                <a href={`tel:${p}`}>{p}</a>
+              </li>
+            ))}
             <li>Mon – Fri, 8:00 AM – 5:00 PM</li>
           </ul>
         </div>

@@ -154,6 +154,12 @@ function Index() {
             >
               Explore Programmes
             </Link>
+            <Link
+              to="/student-portal"
+              className="inline-flex items-center gap-2 rounded-lg border border-primary-foreground/40 px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-primary-foreground/10"
+            >
+              Student Portal
+            </Link>
           </div>
           <div className="mt-10 flex items-center gap-3">
             <button
@@ -284,6 +290,96 @@ function Index() {
               </span>
             </Link>
           ))}
+        </div>
+      </section>
+
+      <section className="bg-muted/60">
+        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-16 lg:grid-cols-2">
+          <div className="rounded-2xl border border-border bg-card p-7 shadow-card">
+            <h2 className="font-display text-2xl font-bold">Admission Requirements</h2>
+            <p className="mt-3 text-sm text-muted-foreground">
+              Minimum of five (5) O'Level credit passes (WAEC, NECO or NABTEB) including:
+            </p>
+            <ul className="mt-4 grid gap-2 text-sm font-medium sm:grid-cols-2">
+              {["English Language", "Mathematics", "Biology", "Chemistry", "Physics"].map((s) => (
+                <li key={s} className="rounded-lg bg-secondary px-3 py-2 text-secondary-foreground">
+                  {s}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-2xl border border-border bg-card p-7 shadow-card">
+            <h2 className="font-display text-2xl font-bold">How to Apply</h2>
+            <ol className="mt-4 space-y-2 text-sm text-muted-foreground">
+              {[
+                "Complete the online application form",
+                "Save your application number and access code",
+                "Upload documents and pay the application fee",
+                "Check your admission status on the Student Portal",
+                "Receive your admission letter and register",
+              ].map((s, i) => (
+                <li key={s} className="flex gap-3">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-primary text-xs font-bold text-primary-foreground">
+                    {i + 1}
+                  </span>
+                  {s}
+                </li>
+              ))}
+            </ol>
+            <Link
+              to="/contact"
+              className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline"
+            >
+              Make an admission enquiry <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-7xl px-4 py-16">
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <h2 className="font-display text-2xl font-bold md:text-3xl">Campus Gallery</h2>
+          <Link to="/gallery" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline">
+            View full gallery <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <div className="mt-8 grid grid-cols-2 gap-3 md:grid-cols-4">
+          {slides.slice(0, 4).map((s) => (
+            <img
+              key={s.caption}
+              src={s.src}
+              alt={s.caption}
+              width={800}
+              height={600}
+              loading="lazy"
+              className="aspect-[4/3] w-full rounded-xl object-cover"
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className="border-t border-border bg-card">
+        <div className="mx-auto grid max-w-7xl gap-6 px-4 py-12 text-sm md:grid-cols-3">
+          <div>
+            <h3 className="font-display text-base font-bold">Visit Us</h3>
+            <p className="mt-2 text-muted-foreground">
+              M &amp; S International School Premises, Bukuru, Jos South, Plateau State, Nigeria.
+            </p>
+          </div>
+          <div>
+            <h3 className="font-display text-base font-bold">Call Us</h3>
+            <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
+              {["08123335178", "0803590921", "07063924920", "08033894557"].map((p) => (
+                <a key={p} href={`tel:${p}`} className="text-primary hover:underline">{p}</a>
+              ))}
+            </p>
+          </div>
+          <div>
+            <h3 className="font-display text-base font-bold">Email Us</h3>
+            <a href="mailto:zenithcollegehealthjos@gmail.com" className="mt-2 inline-block break-all text-primary hover:underline">
+              zenithcollegehealthjos@gmail.com
+            </a>
+          </div>
         </div>
       </section>
 

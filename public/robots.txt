@@ -12,3 +12,10 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /staff
+Disallow: /setup
+Disallow: /auth
+Disallow: /reset-password
+
+Sitemap: https://zenithcollege.vercel.app/sitemap.xml
