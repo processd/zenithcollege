@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      academic_sessions: {
+        Row: {
+          created_at: string
+          current_semester: string
+          ends_on: string | null
+          id: string
+          is_current: boolean
+          name: string
+          starts_on: string | null
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          current_semester?: string
+          ends_on?: string | null
+          id?: string
+          is_current?: boolean
+          name: string
+          starts_on?: string | null
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          current_semester?: string
+          ends_on?: string | null
+          id?: string
+          is_current?: boolean
+          name?: string
+          starts_on?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       applications: {
         Row: {
           access_code: string
@@ -541,6 +574,45 @@ export type Database = {
         }
         Relationships: []
       }
+      matric_sequences: {
+        Row: {
+          last_serial: number
+          year: number
+        }
+        Insert: {
+          last_serial?: number
+          year: number
+        }
+        Update: {
+          last_serial?: number
+          year?: number
+        }
+        Relationships: []
+      }
+      matric_settings: {
+        Row: {
+          id: number
+          prefix: string
+          separator: string
+          serial_length: number
+          updated_at: string
+        }
+        Insert: {
+          id?: number
+          prefix?: string
+          separator?: string
+          serial_length?: number
+          updated_at?: string
+        }
+        Update: {
+          id?: number
+          prefix?: string
+          separator?: string
+          serial_length?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       news_posts: {
         Row: {
           author_id: string | null
@@ -830,9 +902,44 @@ export type Database = {
           },
         ]
       }
+      student_changes: {
+        Row: {
+          actor_id: string | null
+          created_at: string
+          field: string
+          id: string
+          new_value: string | null
+          old_value: string | null
+          reason: string | null
+          student_id: string
+        }
+        Insert: {
+          actor_id?: string | null
+          created_at?: string
+          field: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          reason?: string | null
+          student_id: string
+        }
+        Update: {
+          actor_id?: string | null
+          created_at?: string
+          field?: string
+          id?: string
+          new_value?: string | null
+          old_value?: string | null
+          reason?: string | null
+          student_id?: string
+        }
+        Relationships: []
+      }
       students: {
         Row: {
+          admission_date: string | null
           application_id: string | null
+          change_reason: string | null
           created_at: string
           email: string | null
           entry_year: number | null
@@ -842,12 +949,15 @@ export type Database = {
           matric_number: string | null
           phone: string | null
           programme_id: string | null
+          session: string | null
           status: string
           updated_at: string
           user_id: string | null
         }
         Insert: {
+          admission_date?: string | null
           application_id?: string | null
+          change_reason?: string | null
           created_at?: string
           email?: string | null
           entry_year?: number | null
@@ -857,12 +967,15 @@ export type Database = {
           matric_number?: string | null
           phone?: string | null
           programme_id?: string | null
+          session?: string | null
           status?: string
           updated_at?: string
           user_id?: string | null
         }
         Update: {
+          admission_date?: string | null
           application_id?: string | null
+          change_reason?: string | null
           created_at?: string
           email?: string | null
           entry_year?: number | null
@@ -872,6 +985,7 @@ export type Database = {
           matric_number?: string | null
           phone?: string | null
           programme_id?: string | null
+          session?: string | null
           status?: string
           updated_at?: string
           user_id?: string | null
@@ -1025,6 +1139,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      registrar_next_matric: { Args: { _year: number }; Returns: string }
       zc_grade: { Args: { score: number }; Returns: string }
       zc_grade_point: { Args: { score: number }; Returns: number }
     }
