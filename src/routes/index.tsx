@@ -1,3 +1,4 @@
+import { ContactNumbers } from "@/components/site/ContactNumbers";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import {
@@ -368,11 +369,7 @@ function Index() {
           </div>
           <div>
             <h3 className="font-display text-base font-bold">Call Us</h3>
-            <p className="mt-2 flex flex-wrap gap-x-3 gap-y-1">
-              {["08123335178", "0803590921", "07063924920", "08033894557"].map((p) => (
-                <a key={p} href={`tel:${p}`} className="text-primary hover:underline">{p}</a>
-              ))}
-            </p>
+            <ContactNumbers className="mt-2 text-primary" />
           </div>
           <div>
             <h3 className="font-display text-base font-bold">Email Us</h3>

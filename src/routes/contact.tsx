@@ -1,3 +1,4 @@
+import { ContactNumbers } from "@/components/site/ContactNumbers";
 import { createFileRoute } from "@tanstack/react-router";
 import { MapPin, Phone, Mail, Clock } from "lucide-react";
 import { PageHero, Section } from "@/components/site/PageHero";
@@ -9,7 +10,7 @@ export const Route = createFileRoute("/contact")({
       {
         name: "description",
         content:
-          "Contact Zenith College of Health Science and Technology, Jos: Bukuru, Jos South, Plateau State. Phone 08123335178.",
+          "Contact Zenith College of Health Science and Technology, Jos: Bukuru, Jos South, Plateau State. Telephone 08035909211, WhatsApp 08123335178.",
       },
       { property: "og:title", content: "Contact Zenith College, Jos" },
       { property: "og:description", content: "Address, phone numbers, email and office hours." },
@@ -40,7 +41,6 @@ export const Route = createFileRoute("/contact")({
   component: Contact,
 });
 
-const phones = ["08123335178", "0803590921", "07063924920", "08033894557"];
 
 function Contact() {
   return (
@@ -58,13 +58,7 @@ function Contact() {
               M &amp; S International School, Bukuru, Jos South, Plateau State, Nigeria.
             </InfoCard>
             <InfoCard icon={Phone} title="Telephone">
-              <div className="flex flex-wrap gap-x-4 gap-y-1">
-                {phones.map((p) => (
-                  <a key={p} href={`tel:${p}`} className="hover:text-primary">
-                    {p}
-                  </a>
-                ))}
-              </div>
+              <ContactNumbers />
             </InfoCard>
             <InfoCard icon={Mail} title="Email">
               <a href="mailto:zenithcollegehealthjos@gmail.com" className="hover:text-primary">

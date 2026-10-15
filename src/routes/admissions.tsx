@@ -130,7 +130,7 @@ function Admissions() {
             <p className="mt-3 text-sm text-muted-foreground">
               Tuition is affordable and payable per session, with an option for instalment payment
               on approval. For the current fee schedule of your chosen programme, contact the
-              Admissions Office on <span className="font-semibold text-foreground">08123335178</span>{" "}
+              Admissions Office on <a href="tel:+2348035909211" className="font-semibold text-foreground">08035909211</a> (WhatsApp <a href="https://wa.me/2348123335178" className="font-semibold text-foreground">08123335178</a>){" "}
               or email{" "}
               <a
                 className="font-semibold text-primary hover:underline"

@@ -89,7 +89,7 @@ function Downloads() {
               >
                 zenithcollegehealthjos@gmail.com
               </a>{" "}
-              or call 08123335178.
+              or call 08035909211.
             </p>
           </div>
         ) : (

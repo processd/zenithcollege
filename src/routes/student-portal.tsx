@@ -131,7 +131,7 @@ function StudentPortal() {
         setRecoveredCode(res.accessCode);
       } else {
         setRecoverMsg(
-          "We could not match those details to an application. Check that the application number, email and phone number are exactly what you used when you applied, or call 08123335178 for help.",
+          "We could not match those details to an application. Check that the application number, email and phone number are exactly what you used when you applied, or call 08035909211 for help.",
         );
       }
     } catch {
@@ -372,7 +372,7 @@ function StudentPortal() {
               </div>
               <p className="mt-6 text-sm text-muted-foreground">
                 Course registration, results, fees and examination cards open to admitted students
-                each session. Visit the ICT Centre or call 08123335178 during office hours for help.
+                each session. Visit the ICT Centre or call 08035909211 during office hours for help.
               </p>
             </div>
           </div>

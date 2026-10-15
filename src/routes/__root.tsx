@@ -1,3 +1,4 @@
+import { WhatsAppButton } from "@/components/site/ContactNumbers";
 import type { ErrorComponentProps } from "@tanstack/react-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import {
@@ -144,6 +145,7 @@ function RootComponent() {
           <Outlet />
         </main>
         <Footer />
+        <WhatsAppButton />
       </div>
     </QueryClientProvider>
   );
