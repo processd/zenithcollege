@@ -25,6 +25,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as StaffPortalRouteImport } from './routes/staff-portal'
 import { Route as StudentPortalRouteImport } from './routes/student-portal'
 import { Route as AuthenticatedAdminRouteImport } from './routes/_authenticated/admin'
+import { Route as AuthenticatedRegistrarRouteImport } from './routes/_authenticated/registrar'
 import { Route as AuthenticatedSetupRouteImport } from './routes/_authenticated/setup'
 import { Route as AuthenticatedStaffRouteImport } from './routes/_authenticated/staff'
 
@@ -107,6 +108,11 @@ const AuthenticatedAdminRoute = AuthenticatedAdminRouteImport.update({
   path: '/admin',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedRegistrarRoute = AuthenticatedRegistrarRouteImport.update({
+  id: '/registrar',
+  path: '/registrar',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSetupRoute = AuthenticatedSetupRouteImport.update({
   id: '/setup',
   path: '/setup',
@@ -134,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/staff-portal': typeof StaffPortalRoute
   '/student-portal': typeof StudentPortalRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/registrar': typeof AuthenticatedRegistrarRoute
   '/setup': typeof AuthenticatedSetupRoute
   '/staff': typeof AuthenticatedStaffRoute
 }
@@ -153,6 +160,7 @@ export interface FileRoutesByTo {
   '/staff-portal': typeof StaffPortalRoute
   '/student-portal': typeof StudentPortalRoute
   '/admin': typeof AuthenticatedAdminRoute
+  '/registrar': typeof AuthenticatedRegistrarRoute
   '/setup': typeof AuthenticatedSetupRoute
   '/staff': typeof AuthenticatedStaffRoute
 }
@@ -174,6 +182,7 @@ export interface FileRoutesById {
   '/staff-portal': typeof StaffPortalRoute
   '/student-portal': typeof StudentPortalRoute
   '/_authenticated/admin': typeof AuthenticatedAdminRoute
+  '/_authenticated/registrar': typeof AuthenticatedRegistrarRoute
   '/_authenticated/setup': typeof AuthenticatedSetupRoute
   '/_authenticated/staff': typeof AuthenticatedStaffRoute
 }
@@ -195,6 +204,7 @@ export interface FileRouteTypes {
     | '/staff-portal'
     | '/student-portal'
     | '/admin'
+    | '/registrar'
     | '/setup'
     | '/staff'
   fileRoutesByTo: FileRoutesByTo
@@ -214,6 +224,7 @@ export interface FileRouteTypes {
     | '/staff-portal'
     | '/student-portal'
     | '/admin'
+    | '/registrar'
     | '/setup'
     | '/staff'
   id:
@@ -234,6 +245,7 @@ export interface FileRouteTypes {
     | '/staff-portal'
     | '/student-portal'
     | '/_authenticated/admin'
+    | '/_authenticated/registrar'
     | '/_authenticated/setup'
     | '/_authenticated/staff'
   fileRoutesById: FileRoutesById
@@ -370,6 +382,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAdminRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/registrar': {
+      id: '/_authenticated/registrar'
+      path: '/registrar'
+      fullPath: '/registrar'
+      preLoaderRoute: typeof AuthenticatedRegistrarRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/setup': {
       id: '/_authenticated/setup'
       path: '/setup'
@@ -389,12 +408,14 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedAdminRoute: typeof AuthenticatedAdminRoute
+  AuthenticatedRegistrarRoute: typeof AuthenticatedRegistrarRoute
   AuthenticatedSetupRoute: typeof AuthenticatedSetupRoute
   AuthenticatedStaffRoute: typeof AuthenticatedStaffRoute
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedAdminRoute: AuthenticatedAdminRoute,
+  AuthenticatedRegistrarRoute: AuthenticatedRegistrarRoute,
   AuthenticatedSetupRoute: AuthenticatedSetupRoute,
   AuthenticatedStaffRoute: AuthenticatedStaffRoute,
 }
