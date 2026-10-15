@@ -9,7 +9,7 @@ export const faqs = [
   },
   {
     q: "How much is the tuition?",
-    a: "Tuition is affordable and varies by programme. Contact the Admissions Office on 08123335178 for the current fee schedule.",
+    a: "Tuition is affordable and varies by programme. Contact the Admissions Office on 08035909211 for the current fee schedule.",
   },
   {
     q: "Do you offer hostel accommodation?",

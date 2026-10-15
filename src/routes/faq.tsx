@@ -41,7 +41,7 @@ function Faq() {
       <PageHero
         eyebrow="FAQ"
         title="Frequently asked questions"
-        subtitle="Can't find your answer? Call 08123335178 or email the College."
+        subtitle="Can't find your answer? Call 08035909211 or email the College."
       />
 
       <Section>

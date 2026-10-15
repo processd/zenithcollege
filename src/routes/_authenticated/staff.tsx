@@ -189,6 +189,11 @@ function StaffWorkspace() {
           </p>
         </div>
         <div className="flex items-center gap-4">
+          {ws.roles.some((r: string) => ["super_admin", "admin", "provost", "deputy_provost", "registrar"].includes(r)) && (
+            <Link to="/registrar" className="text-sm font-semibold text-primary hover:underline">
+              Registrar's Dashboard
+            </Link>
+          )}
           <Link to="/" className="text-sm font-semibold text-primary hover:underline">
             College website
           </Link>

@@ -26,7 +26,7 @@ export function Header() {
             <Mail className="h-3.5 w-3.5 shrink-0" /> zenithcollegehealthjos@gmail.com
           </span>
           <span className="inline-flex items-center gap-2 opacity-90">
-            <Phone className="h-3.5 w-3.5 shrink-0" /> 08123335178
+            <Phone className="h-3.5 w-3.5 shrink-0" /> <a href="tel:+2348035909211">Tel 08035909211</a> · <a href="https://wa.me/2348123335178" target="_blank" rel="noopener noreferrer">WhatsApp 08123335178</a>
           </span>
         </div>
       </div>
